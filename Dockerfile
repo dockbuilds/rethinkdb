@@ -1,18 +1,18 @@
 FROM debian:jessie
 
+ENV RETHINKDB_VERSION 1.14.0-0ubuntu1~lucid
+
 # add our user and group first to make sure their IDs get assigned consistently, regardless of whatever dependencies get added
 RUN groupadd -r rethinkdb && useradd -r -g rethinkdb rethinkdb
 
 RUN echo "deb http://download.rethinkdb.com/apt lucid main" | tee /etc/apt/sources.list.d/rethinkdb.list
 ADD http://download.rethinkdb.com/apt/pubkey.gpg /pubkey.gpg
+RUN apt-key add pubkey.gpg
 
-ENV RETHINKDB_VERSION 1.14.0-0ubuntu1~lucid
-
-RUN apt-key add pubkey.gpg && \
-    apt-get update && apt-get install -y \
-      rethinkdb=$RETHINKDB_VERSION \
-      curl \
-    && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y \
+  curl \
+  rethinkdb=$RETHINKDB_VERSION \
+  && rm -rf /var/lib/apt/lists/*
 
 RUN curl -o /usr/local/bin/gosu -SL 'https://github.com/tianon/gosu/releases/download/1.1/gosu' \
   && chmod +x /usr/local/bin/gosu \
