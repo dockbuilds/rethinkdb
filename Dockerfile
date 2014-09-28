@@ -1,11 +1,11 @@
-FROM debian:jessie
+FROM ubuntu:14.04
 
-ENV RETHINKDB_VERSION 1.14.0-0ubuntu1~lucid
+ENV RETHINKDB_VERSION 1.15.0-1-0ubuntu1~trusty
 
 # add our user and group first to make sure their IDs get assigned consistently, regardless of whatever dependencies get added
 RUN groupadd -r rethinkdb && useradd -r -g rethinkdb rethinkdb
 
-RUN echo "deb http://download.rethinkdb.com/apt lucid main" | tee /etc/apt/sources.list.d/rethinkdb.list
+RUN echo "deb http://download.rethinkdb.com/apt trusty main" | tee /etc/apt/sources.list.d/rethinkdb.list
 ADD http://download.rethinkdb.com/apt/pubkey.gpg /pubkey.gpg
 RUN apt-key add pubkey.gpg
 
